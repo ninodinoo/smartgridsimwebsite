@@ -1,0 +1,67 @@
+/* Eigene Styles, die TailwindCSS nicht direkt liefert */
+
+/* Feiner Glow-Effekt auf Texten */
+.glow-text {
+  text-shadow: 0 0 20px currentColor;
+}
+
+/* Smoother Scroll, falls Browser ihn nicht von sich aus macht */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Subtiler Hintergrund-Verlauf fuer den ganzen Body */
+body {
+  background:
+    radial-gradient(ellipse at top, rgba(124, 252, 0, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom, rgba(0, 229, 255, 0.03) 0%, transparent 50%),
+    #09090b;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* Scrollbar-Styling (Webkit) */
+::-webkit-scrollbar {
+  width: 10px;
+  background: #09090b;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
+
+/* Selektion */
+::selection {
+  background: rgba(124, 252, 0, 0.3);
+  color: #fff;
+}
+
+/* Code-Block-Ersatz: bessere Font-Tabellen-Ausrichtung */
+code, pre {
+  font-feature-settings: 'liga' 0;
+}
+
+/* Hover-Lift-Effekt fuer Karten */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -10px rgba(124, 252, 0, 0.2);
+}
+
+/* Subtiles Grid im Hintergrund (optional) */
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Hero-Canvas darf nicht klickbar sein */
+#hero-canvas {
+  pointer-events: none;
+}
