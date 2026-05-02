@@ -22,6 +22,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -226,6 +227,10 @@ button {
   line-height: .92;
   font-weight: 900;
   letter-spacing: 0;
+}
+
+.mobile-break {
+  display: none;
 }
 
 .lead {
@@ -1028,12 +1033,12 @@ button {
   }
 
   .hero {
-    padding-top: 96px;
+    min-height: auto;
+    padding: 92px 24px 44px;
   }
 
   .hero-canvas {
-    top: 62px;
-    height: calc(100% - 62px);
+    display: none;
   }
 
   .hero-shell {
@@ -1044,13 +1049,28 @@ button {
   }
 
   .hero h1 {
-    max-width: 100%;
-    font-size: 34px;
-    line-height: .98;
+    max-width: calc(100vw - 48px);
+    font-size: 31px;
+    line-height: 1.03;
+    overflow-wrap: normal;
+  }
+
+  .mobile-break {
+    display: block;
   }
 
   .lead {
-    max-width: 100%;
+    max-width: calc(100vw - 72px);
+    font-size: 16px;
+    line-height: 1.58;
+    overflow-wrap: anywhere;
+  }
+
+  .research-question {
+    max-width: calc(100vw - 48px);
+    margin-top: 18px;
+    font-size: 19px;
+    line-height: 1.2;
     overflow-wrap: anywhere;
   }
 
@@ -1077,7 +1097,23 @@ button {
   }
 
   .control-room {
+    width: 100%;
+    max-width: calc(100vw - 48px);
     margin-top: 8px;
+  }
+
+  .verdict strong {
+    font-size: 25px;
+  }
+
+  .verdict p,
+  .strategy-copy,
+  .data-intro p,
+  .download-card p,
+  .series-downloads p,
+  .metrics-table p,
+  .file-guide dd {
+    overflow-wrap: anywhere;
   }
 
   .console-head,
@@ -1098,6 +1134,23 @@ button {
 
   .data-stats {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .data-intro,
+  .download-grid,
+  .series-downloads,
+  .file-guide,
+  .metrics-table {
+    width: 100%;
+    max-width: calc(100vw - 48px);
+  }
+
+  .download-card,
+  .series-downloads article,
+  .data-intro article,
+  .metrics-table,
+  .file-guide {
+    max-width: 100%;
   }
 
   .metrics-head {
@@ -1124,5 +1177,61 @@ button {
   .site-footer a {
     align-self: stretch;
     text-align: center;
+  }
+}
+
+@media (max-width: 430px) {
+  .topbar {
+    padding-inline: 16px;
+  }
+
+  .hero,
+  .section {
+    padding-inline: 18px;
+  }
+
+  .hero h1,
+  .research-question,
+  .control-room,
+  .data-intro,
+  .download-grid,
+  .series-downloads,
+  .file-guide,
+  .metrics-table {
+    max-width: calc(100vw - 36px);
+  }
+
+  .lead {
+    max-width: calc(100vw - 64px);
+  }
+
+  .hero h1 {
+    font-size: 27px;
+  }
+
+  .lead {
+    font-size: 15.5px;
+  }
+
+  .research-question {
+    font-size: 18px;
+  }
+
+  .console-head {
+    padding-inline: 16px;
+  }
+
+  .verdict,
+  .snapshot-grid {
+    margin-inline: 14px;
+  }
+
+  .load-chart {
+    width: calc(100% - 28px);
+    margin-inline: 14px;
+  }
+
+  .data-stats {
+    grid-template-columns: 1fr;
   }
 }
