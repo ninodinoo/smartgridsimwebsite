@@ -1,174 +1,133 @@
-// Lastganglinien-Chart auf Canvas — zeigt eine echte Tagessimulation
-// (Werte aus einem rule_based-Lauf, Seed 42, Default-Szenario).
-
 (function () {
   const canvas = document.getElementById('load-chart');
   if (!canvas) return;
+
   const ctx = canvas.getContext('2d');
-
-  const dpr = window.devicePixelRatio || 1;
-  function resize() {
-    const w = canvas.offsetWidth;
-    const h = canvas.offsetHeight;
-    canvas.width = w * dpr;
-    canvas.height = h * dpr;
-    ctx.scale(dpr, dpr);
-  }
-  resize();
-  window.addEventListener('resize', () => {
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-    resize();
-  });
-
-  // Vereinfachte Tagesgang-Werte (96 Ticks). Realistisch: Wohnen + Gewerbe
-  // + Industrie überlagert; Spitzen bei 7:00 und 19:00.
   const N = 96;
-  const load = new Array(N);
-  for (let i = 0; i < N; i++) {
-    const h = (i * 15) / 60;                           // Stunde 0..24
-    const morn = Math.exp(-((h - 7) ** 2) / 6);
-    const eve = Math.exp(-((h - 19) ** 2) / 8);
-    const shapeRes = Math.max(morn, eve);
-    const wohnen = 60 + 90 * shapeRes;
-    const gewerbe = (h >= 8 && h <= 18) ? 80 :
-                    (h >= 6 && h < 8) ? 10 + 70 * (h - 6) / 2 :
-                    (h > 18 && h <= 20) ? 10 + 70 * (20 - h) / 2 : 10;
-    const industrie = (h < 6 || h >= 22) ? 48 : 60;
-    load[i] = wohnen + gewerbe + industrie;
+  const series = createSeries();
+  let dpr = 1;
+  let width = 0;
+  let height = 0;
+  let cursor = 0;
+  let last = performance.now();
+
+  function createSeries() {
+    const load = [];
+    const pv = [];
+    const wind = [];
+    let windState = 31;
+
+    for (let i = 0; i < N; i += 1) {
+      const hour = i / 4;
+      const morning = Math.exp(-((hour - 7.2) ** 2) / 5.5);
+      const evening = Math.exp(-((hour - 19) ** 2) / 7);
+      const commerce = hour >= 8 && hour <= 18 ? 78 : hour >= 6 && hour < 8 ? 22 + 28 * (hour - 6) : 16;
+      load.push(112 + 72 * Math.max(morning, evening) + commerce);
+
+      const sun = hour < 6 || hour > 20 ? 0 : Math.sin(Math.PI * (hour - 6) / 14);
+      pv.push(Math.max(0, 128 * sun));
+
+      windState += Math.sin(i * .22) * 1.25 + Math.cos(i * .09) * .7;
+      windState = Math.max(12, Math.min(67, windState));
+      wind.push(windState);
+    }
+
+    return [
+      { name: 'Last', color: '#f3f1ea', values: load, width: 2.5 },
+      { name: 'PV', color: '#d8a531', values: pv, width: 2 },
+      { name: 'Wind', color: '#80d39b', values: wind, width: 2 },
+    ];
   }
 
-  // PV-Verlauf
-  const pv = new Array(N);
-  for (let i = 0; i < N; i++) {
-    const h = (i * 15) / 60;
-    if (h < 6 || h > 20) { pv[i] = 0; continue; }
-    const phase = Math.PI * (h - 6) / 14;
-    pv[i] = 110 * Math.sin(phase);
+  function resize() {
+    dpr = window.devicePixelRatio || 1;
+    width = canvas.offsetWidth;
+    height = canvas.offsetHeight;
+    canvas.width = Math.max(1, Math.floor(width * dpr));
+    canvas.height = Math.max(1, Math.floor(height * dpr));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  // Wind-Verlauf (mit Rauschen)
-  const wind = new Array(N);
-  let lastWind = 25;
-  for (let i = 0; i < N; i++) {
-    lastWind += (Math.random() - 0.5) * 5;
-    lastWind = Math.max(5, Math.min(60, lastWind));
-    wind[i] = lastWind;
+  function x(index) {
+    return 18 + (index / (N - 1)) * (width - 36);
   }
 
-  // Animation: zeichne Linien fortschreitend
-  let frame = 0;
-  let lastT = performance.now();
+  function y(value) {
+    const max = 310;
+    return height - 24 - (value / max) * (height - 48);
+  }
 
-  function draw() {
-    const now = performance.now();
-    const dt = now - lastT;
-    lastT = now;
-
-    const w = canvas.offsetWidth;
-    const h = canvas.offsetHeight;
-    ctx.clearRect(0, 0, w, h);
-
-    // Achsen-Hintergrund
-    ctx.fillStyle = 'rgba(255,255,255,0.02)';
-    ctx.fillRect(0, 0, w, h);
-
-    // Hintergrund-Gitter
-    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+  function drawAxis() {
+    ctx.fillStyle = '#151914';
+    ctx.fillRect(0, 0, width, height);
+    ctx.strokeStyle = 'rgba(245,242,232,.10)';
     ctx.lineWidth = 1;
-    for (let i = 1; i < 4; i++) {
-      const y = (h / 4) * i;
+
+    for (let i = 1; i < 4; i += 1) {
+      const yy = (height / 4) * i;
       ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(w, y);
-      ctx.stroke();
-    }
-    for (let i = 1; i < 6; i++) {
-      const x = (w / 6) * i;
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, h);
+      ctx.moveTo(0, yy);
+      ctx.lineTo(width, yy);
       ctx.stroke();
     }
 
-    // Maximalwert für Skalierung
-    const yMax = 320;
-    const scaleY = (v) => h - (v / yMax) * (h - 10) - 5;
-    const scaleX = (i) => (i / (N - 1)) * w;
-
-    // Last-Linie zeichnen — gefuellt
-    drawLine(scaleX, scaleY, load, frame, '#00E5FF', 2.5, 'rgba(0,229,255,0.08)');
-    // PV als gefuellte Flaeche
-    drawLine(scaleX, scaleY, pv, frame, '#FFD60A', 1.5, 'rgba(255,214,10,0.15)');
-    // Wind
-    drawLine(scaleX, scaleY, wind, frame, '#7CFC00', 1.5, 'rgba(124,252,0,0.12)');
-
-    // Legende
-    ctx.font = '11px JetBrains Mono, monospace';
-    drawLegend(ctx, w, [
-      { color: '#00E5FF', label: 'Last [MW]' },
-      { color: '#FFD60A', label: 'PV' },
-      { color: '#7CFC00', label: 'Wind' },
-    ]);
-
-    // Cursor-Indikator (Zeit)
-    if (frame < N) {
-      const x = scaleX(frame);
-      ctx.strokeStyle = 'rgba(255,255,255,0.3)';
-      ctx.setLineDash([3, 3]);
+    for (let i = 1; i < 6; i += 1) {
+      const xx = (width / 6) * i;
       ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, h);
+      ctx.moveTo(xx, 0);
+      ctx.lineTo(xx, height);
       ctx.stroke();
-      ctx.setLineDash([]);
     }
-
-    // Frame fortschreiben (langsamer als Refresh-Rate)
-    if (frame < N - 1) {
-      frame += dt / 60;
-    } else {
-      // Pause am Ende, dann zurueckspringen
-      setTimeout(() => { frame = 0; }, 1500);
-    }
-
-    requestAnimationFrame(draw);
   }
-  requestAnimationFrame(draw);
 
-  function drawLine(scaleX, scaleY, data, upTo, stroke, width, fill) {
-    const w_ = canvas.offsetWidth;
-    const h_ = canvas.offsetHeight;
-    ctx.lineWidth = width;
-    ctx.strokeStyle = stroke;
+  function drawLine(item, limit) {
+    ctx.strokeStyle = item.color;
+    ctx.lineWidth = item.width;
     ctx.beginPath();
-    const limit = Math.min(Math.floor(upTo), data.length - 1);
-    for (let i = 0; i <= limit; i++) {
-      const x = scaleX(i);
-      const y = scaleY(data[i]);
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
+    for (let i = 0; i <= limit; i += 1) {
+      const xx = x(i);
+      const yy = y(item.values[i]);
+      if (i === 0) ctx.moveTo(xx, yy);
+      else ctx.lineTo(xx, yy);
     }
     ctx.stroke();
-
-    // Fuellung darunter
-    if (fill) {
-      ctx.fillStyle = fill;
-      ctx.lineTo(scaleX(limit), h_);
-      ctx.lineTo(scaleX(0), h_);
-      ctx.closePath();
-      ctx.fill();
-    }
   }
 
-  function drawLegend(ctx, w, items) {
-    let x = 12;
-    const y = 16;
-    items.forEach(it => {
-      ctx.fillStyle = it.color;
-      ctx.fillRect(x, y - 6, 10, 2);
-      ctx.fillStyle = 'rgba(255,255,255,0.7)';
-      ctx.fillText(it.label, x + 14, y);
-      x += ctx.measureText(it.label).width + 36;
+  function drawLegend() {
+    ctx.font = '700 11px IBM Plex Mono, monospace';
+    let xx = 16;
+    series.forEach((item) => {
+      ctx.fillStyle = item.color;
+      ctx.fillRect(xx, 16, 16, 3);
+      ctx.fillStyle = 'rgba(245,242,232,.72)';
+      ctx.fillText(item.name, xx + 22, 20);
+      xx += 86;
     });
   }
+
+  function draw(now) {
+    const dt = now - last;
+    last = now;
+    cursor = cursor >= N - 1 ? 0 : cursor + dt / 72;
+    const limit = Math.max(1, Math.min(N - 1, Math.floor(cursor)));
+
+    drawAxis();
+    series.forEach((item) => drawLine(item, limit));
+
+    const xx = x(limit);
+    ctx.strokeStyle = 'rgba(245,242,232,.34)';
+    ctx.setLineDash([4, 5]);
+    ctx.beginPath();
+    ctx.moveTo(xx, 0);
+    ctx.lineTo(xx, height);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    drawLegend();
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  requestAnimationFrame(draw);
 })();

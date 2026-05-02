@@ -1,0 +1,72 @@
+====================================================================================================
+Pilot-Vergleich ueber Seeds: [3, 7, 13, 17, 23, 31, 42, 55, 73, 99]
+====================================================================================================
+
+--- Seed 3 ---
+  naive                  CO2= 26.73 t  brownouts= 60  surplus= 406.0 MWh  unserved=1271.5 MWh  ren=56.6%
+  rule_based             CO2= 26.73 t  brownouts= 62  surplus=  20.4 MWh  unserved= 249.8 MWh  ren=57.2%
+  claude_subagent        CO2= 26.94 t  brownouts= 56  surplus= 460.6 MWh  unserved= 871.4 MWh  ren=51.6%
+
+--- Seed 7 ---
+  naive                  CO2= 26.73 t  brownouts= 61  surplus= 386.3 MWh  unserved=1246.1 MWh  ren=56.7%
+  rule_based             CO2= 26.73 t  brownouts= 67  surplus=  19.1 MWh  unserved= 243.4 MWh  ren=57.3%
+  claude_subagent        CO2= 27.35 t  brownouts= 62  surplus= 650.0 MWh  unserved=1067.2 MWh  ren=50.1%
+
+--- Seed 13 ---
+  naive                  CO2= 26.73 t  brownouts= 62  surplus= 384.7 MWh  unserved=1254.8 MWh  ren=56.5%
+  rule_based             CO2= 26.73 t  brownouts= 67  surplus=  17.5 MWh  unserved= 252.0 MWh  ren=57.1%
+  claude_subagent        CO2= 26.89 t  brownouts= 51  surplus= 507.3 MWh  unserved= 788.8 MWh  ren=53.3%
+
+--- Seed 17 ---
+  naive                  CO2= 26.73 t  brownouts= 61  surplus= 379.3 MWh  unserved=1248.3 MWh  ren=56.5%
+  rule_based             CO2= 26.73 t  brownouts= 67  surplus=  14.4 MWh  unserved= 248.0 MWh  ren=57.1%
+  claude_subagent        CO2= 26.98 t  brownouts= 51  surplus= 689.8 MWh  unserved=1065.5 MWh  ren=50.5%
+
+--- Seed 23 ---
+  naive                  CO2= 26.73 t  brownouts= 61  surplus= 379.8 MWh  unserved=1276.3 MWh  ren=56.0%
+  rule_based             CO2= 26.73 t  brownouts= 63  surplus=  24.7 MWh  unserved= 285.1 MWh  ren=56.6%
+  claude_subagent        CO2= 27.02 t  brownouts= 55  surplus= 643.5 MWh  unserved=1053.4 MWh  ren=52.3%
+
+--- Seed 31 ---
+  naive                  CO2= 26.73 t  brownouts= 59  surplus= 412.1 MWh  unserved=1210.1 MWh  ren=58.0%
+  rule_based             CO2= 26.73 t  brownouts= 60  surplus=  25.0 MWh  unserved= 187.5 MWh  ren=58.6%
+  claude_subagent        CO2= 27.05 t  brownouts= 57  surplus= 956.1 MWh  unserved=1324.5 MWh  ren=49.4%
+
+--- Seed 42 ---
+  naive                  CO2= 26.73 t  brownouts= 59  surplus= 377.5 MWh  unserved=1225.5 MWh  ren=57.0%
+  rule_based             CO2= 26.73 t  brownouts= 66  surplus=  12.5 MWh  unserved= 225.0 MWh  ren=57.6%
+  claude_subagent        CO2= 27.00 t  brownouts= 52  surplus= 614.2 MWh  unserved= 941.8 MWh  ren=51.4%
+
+--- Seed 55 ---
+  naive                  CO2= 26.73 t  brownouts= 61  surplus= 407.5 MWh  unserved=1258.4 MWh  ren=56.9%
+  rule_based             CO2= 26.73 t  brownouts= 61  surplus=  18.9 MWh  unserved= 234.3 MWh  ren=57.5%
+  claude_subagent        CO2= 27.04 t  brownouts= 57  surplus= 838.0 MWh  unserved=1220.6 MWh  ren=50.9%
+
+--- Seed 73 ---
+  naive                  CO2= 26.73 t  brownouts= 60  surplus= 419.7 MWh  unserved=1225.7 MWh  ren=57.8%
+  rule_based             CO2= 26.73 t  brownouts= 66  surplus=  13.4 MWh  unserved= 185.0 MWh  ren=58.5%
+  claude_subagent        CO2= 27.14 t  brownouts= 56  surplus= 643.7 MWh  unserved=1012.5 MWh  ren=51.5%
+
+--- Seed 99 ---
+  naive                  CO2= 26.73 t  brownouts= 58  surplus= 407.3 MWh  unserved=1245.0 MWh  ren=57.2%
+  rule_based             CO2= 26.73 t  brownouts= 62  surplus=  15.9 MWh  unserved= 218.2 MWh  ren=57.8%
+  claude_subagent        CO2= 26.88 t  brownouts= 44  surplus= 702.1 MWh  unserved= 943.5 MWh  ren=54.4%
+
+====================================================================================================
+Aggregat (Mittelwert ± Stdabw. ueber Seeds)
+====================================================================================================
+
+Metrik                              Naive            RuleBased            ClaudeSub
+------------------------------------------------------------------------------------
+CO2 [t]                    26.73 ±   0.00       26.73 ±   0.00       27.03 ±   0.14
+Brownouts                  60.20 ±   1.23       64.10 ±   2.77       54.10 ±   4.86
+Surplus [MWh]             396.03 ±  15.93       18.16 ±   4.34      670.52 ± 144.05
+Unserved [MWh]           1246.18 ±  20.89      232.84 ±  30.46     1028.92 ± 158.16
+Ren-Share [%]              56.92 ±   0.62       57.54 ±   0.62       51.53 ±   1.48
+
+====================================================================================================
+Welch-t und Cohen's d: claude_subagent vs. rule_based
+====================================================================================================
+  CO2 [t]: claude=27.03, rb=26.73, t=+6.81, Cohen's d=+3.04
+  Brownouts: claude=54.10, rb=64.10, t=-5.65, Cohen's d=-2.53
+  Surplus [MWh]: claude=670.52, rb=18.16, t=+14.31, Cohen's d=+6.40
