@@ -1,9 +1,9 @@
 :root {
-  --bg: #f3f1ea;
-  --paper: #fbfaf6;
+  --bg: #eef2f0;
+  --paper: #ffffff;
   --ink: #171916;
   --muted: #626a63;
-  --line: #d7d1c3;
+  --line: #cbd6d2;
   --line-strong: #252820;
   --panel: #20251f;
   --panel-soft: #2a3028;
@@ -12,8 +12,8 @@
   --blue: #2f6f9f;
   --yellow: #d8a531;
   --red: #b9443f;
-  --cream: #efe6d4;
-  --shadow: 0 24px 70px rgba(34, 31, 24, .16);
+  --cream: #e7eee9;
+  --shadow: 0 20px 60px rgba(24, 38, 32, .12);
 }
 
 * {
@@ -84,7 +84,7 @@ button {
   height: 68px;
   padding: 0 clamp(18px, 5vw, 72px);
   border-bottom: 1px solid rgba(37, 40, 32, .18);
-  background: rgba(243, 241, 234, .86);
+  background: rgba(238, 242, 240, .90);
   backdrop-filter: blur(18px);
 }
 
@@ -164,7 +164,7 @@ button {
   position: relative;
   min-height: 100vh;
   padding: 122px clamp(18px, 5vw, 72px) 62px;
-  background: linear-gradient(180deg, rgba(251, 250, 246, .38), rgba(243, 241, 234, .96) 78%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .42), rgba(238, 242, 240, .96) 78%);
   overflow: hidden;
 }
 
@@ -239,6 +239,23 @@ button {
   color: #3f463f;
   font-size: clamp(17px, 1.45vw, 21px);
   line-height: 1.68;
+}
+
+.section-copy {
+  max-width: 860px;
+  margin: 18px 0 0;
+  color: #4c554c;
+  font-size: clamp(16px, 1.4vw, 19px);
+  line-height: 1.65;
+}
+
+.section-copy code {
+  border: 1px solid rgba(37, 40, 32, .16);
+  background: rgba(255, 255, 255, .62);
+  padding: 2px 5px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: .88em;
+  font-weight: 800;
 }
 
 .research-question {
@@ -395,6 +412,7 @@ button {
 }
 
 .section {
+  scroll-margin-top: 84px;
   padding: clamp(76px, 9vw, 128px) clamp(18px, 5vw, 72px);
 }
 
@@ -419,7 +437,9 @@ button {
 .model-grid,
 .architecture,
 .workbench,
-.incident-layout {
+.incident-layout,
+.chart-grid,
+.method-grid {
   max-width: 1240px;
   margin: 0 auto;
 }
@@ -461,11 +481,45 @@ button {
 .evidence-card.warning { border-top: 6px solid var(--red); }
 .evidence-card.neutral { border-top: 6px solid var(--yellow); }
 
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.chart-card {
+  margin: 0;
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.chart-card.wide {
+  grid-column: 1 / -1;
+}
+
+.chart-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #fff;
+}
+
+.chart-card figcaption {
+  border-top: 1px solid rgba(37, 40, 32, .14);
+  padding: 14px 16px 16px;
+  color: #4c554c;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
 .comparison,
 .incident,
-.data-room {
+.data-room,
+.charts-section {
   border-block: 1px solid rgba(37, 40, 32, .2);
-  background: rgba(239, 230, 212, .55);
+  background: rgba(231, 238, 233, .70);
 }
 
 .workbench {
@@ -768,6 +822,10 @@ button {
   background: rgba(63, 143, 95, .11);
 }
 
+.metrics-table .near-row {
+  background: rgba(47, 111, 159, .09);
+}
+
 .metrics-table p {
   margin: 0;
   padding: 18px 20px 22px;
@@ -775,15 +833,24 @@ button {
 
 .download-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
 }
 
 .download-card {
   display: flex;
+  min-width: 0;
   min-height: 250px;
   flex-direction: column;
   padding: 20px;
+}
+
+.download-card h3,
+.download-card p,
+.download-card a,
+.metrics-table td,
+.metrics-table th {
+  overflow-wrap: anywhere;
 }
 
 .download-card.primary-download {
@@ -971,8 +1038,38 @@ button {
   gap: 14px;
 }
 
-.architecture article {
+.architecture article,
+.method-grid article {
   padding: 22px;
+}
+
+.method-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.method-grid article {
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.method-grid span {
+  color: var(--blue);
+  font: 900 13px/1 "IBM Plex Mono", monospace;
+}
+
+.method-grid h3 {
+  margin: 22px 0 0;
+  font-size: 24px;
+  line-height: 1.05;
+  font-weight: 900;
+}
+
+.method-grid p {
+  color: #4c554c;
+  line-height: 1.68;
 }
 
 .site-footer {
@@ -1007,7 +1104,8 @@ button {
   }
 
   .evidence-grid,
-  .architecture {
+  .architecture,
+  .method-grid {
     grid-template-columns: 1fr 1fr;
   }
 
@@ -1048,11 +1146,17 @@ button {
     min-height: auto;
   }
 
+  .hero-copy {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
   .hero h1 {
-    max-width: calc(100vw - 48px);
-    font-size: 31px;
+    width: 100%;
+    max-width: 100%;
+    font-size: 29px;
     line-height: 1.03;
-    overflow-wrap: normal;
+    overflow-wrap: anywhere;
   }
 
   .mobile-break {
@@ -1060,16 +1164,18 @@ button {
   }
 
   .lead {
-    max-width: calc(100vw - 72px);
+    width: 100%;
+    max-width: 100%;
     font-size: 16px;
     line-height: 1.58;
     overflow-wrap: anywhere;
   }
 
   .research-question {
-    max-width: calc(100vw - 48px);
+    width: 100%;
+    max-width: 100%;
     margin-top: 18px;
-    font-size: 19px;
+    font-size: 18px;
     line-height: 1.2;
     overflow-wrap: anywhere;
   }
@@ -1127,9 +1233,15 @@ button {
   .evidence-grid,
   .model-grid,
   .architecture,
+  .method-grid,
+  .chart-grid,
   .download-grid,
   .series-downloads {
     grid-template-columns: 1fr;
+  }
+
+  .chart-card.wide {
+    grid-column: auto;
   }
 
   .data-stats {
@@ -1192,21 +1304,19 @@ button {
 
   .hero h1,
   .research-question,
+  .lead,
   .control-room,
   .data-intro,
+  .chart-grid,
   .download-grid,
   .series-downloads,
   .file-guide,
   .metrics-table {
-    max-width: calc(100vw - 36px);
-  }
-
-  .lead {
-    max-width: calc(100vw - 64px);
+    max-width: 100%;
   }
 
   .hero h1 {
-    font-size: 27px;
+    font-size: 26px;
   }
 
   .lead {

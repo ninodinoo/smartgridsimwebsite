@@ -2,45 +2,62 @@
   const data = {
     naive: {
       kicker: 'Naive Strategie',
-      title: 'Stabil nur, weil sie kaum reagiert.',
-      copy: 'Statische Setpoints erzeugen ähnlich viele Brownouts, verschwenden viel Energie und sind kein intelligenter Controller. Sie dient als unterer Vergleichsanker.',
-      brownouts: '59.87',
-      unserved: '1248.3',
-      surplus: '400.4',
-      cost: '8.93',
+      title: 'Statisch, teuer und als Vergleichsanker nützlich.',
+      sample: 'n = 15',
+      copy: 'Naive nutzt feste Sollwerte und reagiert kaum auf Wetter, Last oder Speicherfüllstände. Dadurch entstehen tiefe Defizite, viel Überschuss und die höchsten Tageskosten.',
+      brownouts: '59,87',
+      unserved: '1248,3',
+      surplus: '400,4',
+      cost: '8,93',
       security: 18,
       efficiency: 40,
       frequency: 9,
     },
     rule: {
       kicker: 'RuleBased Heuristik',
-      title: 'Nicht spektakulär, aber netzbetrieblich überlegen.',
-      copy: 'RuleBased hat mehr Brownout-Ticks als Claude, aber deutlich weniger unversorgte Energie, nur 20.9 MWh Surplus, die beste Frequenzstabilität und die niedrigsten Kosten.',
-      brownouts: '63.73',
-      unserved: '233.3',
-      surplus: '20.9',
-      cost: '1.82',
-      security: 88,
-      efficiency: 96,
-      frequency: 91,
+      title: 'Nicht spektakulär, aber netzbetrieblich am stärksten.',
+      sample: 'n = 15',
+      copy: 'RuleBased hat mehr Brownout-Ticks als Claude und Codex, aber die Defizite sind viel kleiner. Bei unversorgter Energie, Frequenzabweichung und Kosten ist diese Strategie im Datensatz am besten.',
+      brownouts: '63,73',
+      unserved: '233,3',
+      surplus: '20,9',
+      cost: '1,82',
+      security: 92,
+      efficiency: 88,
+      frequency: 96,
     },
     claude: {
-      kicker: 'Claude LLM-Subagent',
-      title: 'Weniger Brownout-Ticks, aber tiefere Defizite.',
-      copy: 'Claude gewinnt die isolierte Brownout-Häufigkeit signifikant. Gleichzeitig steigen Unserved Energy, Surplus, CO2, Frequenzabweichung und Tageskosten stark. Der Hauptfehler ist die frühe H2-Speicher-Entleerung.',
-      brownouts: '55.47',
-      unserved: '1028.9',
-      surplus: '667.8',
-      cost: '7.40',
-      security: 34,
+      kicker: 'Claude CLI-Subagents',
+      title: 'Wenige Brownout-Ticks, aber zu tiefe Defizite.',
+      sample: 'n = 15',
+      copy: 'Claude bedient die Simulation über die CLI. Die Subagents reduzieren die reine Brownout-Anzahl, verbrauchen aber Speicher ungünstig. Dadurch steigen unversorgte Energie, Überschuss, Frequenzabweichung und Kosten.',
+      brownouts: '55,47',
+      unserved: '1028,9',
+      surplus: '667,8',
+      cost: '7,40',
+      security: 32,
       efficiency: 18,
-      frequency: 12,
+      frequency: 10,
+    },
+    codex: {
+      kicker: 'Codex Operator',
+      title: 'Die beste KI-nahe Bedienweise, aber nicht Gesamtsieger.',
+      sample: 'n = 45',
+      copy: 'Codex bedient die Software ebenfalls über die CLI und wurde in drei Durchgängen mit allen 15 Seeds getestet. Die Ergebnisse sind stabil, der Überschuss ist sehr niedrig, aber RuleBased deckt Defizite noch besser.',
+      brownouts: '56,89',
+      unserved: '301,4',
+      surplus: '10,2',
+      cost: '2,30',
+      security: 82,
+      efficiency: 98,
+      frequency: 74,
     },
   };
 
   const ids = {
     kicker: 'strategy-kicker',
     title: 'strategy-title',
+    sample: 'strategy-sample',
     copy: 'strategy-copy',
     brownouts: 'm-brownouts',
     unserved: 'm-unserved',
@@ -65,13 +82,10 @@
     const item = data[key];
     if (!item) return;
 
-    setText(ids.kicker, item.kicker);
-    setText(ids.title, item.title);
-    setText(ids.copy, item.copy);
-    setText(ids.brownouts, item.brownouts);
-    setText(ids.unserved, item.unserved);
-    setText(ids.surplus, item.surplus);
-    setText(ids.cost, item.cost);
+    Object.entries(ids).forEach(([field, id]) => {
+      if (field in item) setText(id, item[field]);
+    });
+
     setText(ids.security, `${item.security}%`);
     setText(ids.efficiency, `${item.efficiency}%`);
     setText(ids.frequency, `${item.frequency}%`);

@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>sgsim - Smart Grid Control Evaluation</title>
-<meta name="description" content="Interaktive Projektwebsite zur Evaluation von LLM-Steuerung, Heuristik und Naive-Baseline in einem 100 Prozent erneuerbaren Smart Grid." />
+<title>sgsim - Smart-Grid-Simulation und Messreihen</title>
+<meta name="description" content="Aktuelle Projektwebsite zur Smart-Grid-Simulation sgsim: 90 Messläufe, Baselines, Claude-Subagents, Codex Operator, Diagramme, Seminararbeit und Prüferdaten." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<a class="skip-link" href="#befund">Zum Inhalt springen</a>
+<a class="skip-link" href="#ergebnis">Zum Inhalt springen</a>
 
 <nav class="topbar" aria-label="Hauptnavigation">
   <a class="brand" href="#top" aria-label="sgsim Start">
@@ -19,84 +19,115 @@
     <span>sgsim</span>
   </a>
   <div class="navlinks">
-    <a href="#befund">Befund</a>
+    <a href="#ergebnis">Ergebnis</a>
+    <a href="#diagramme">Diagramme</a>
     <a href="#vergleich">Strategien</a>
     <a href="#daten">Daten</a>
     <a href="#modell">Modell</a>
-    <a href="#h2">H2-Fehler</a>
-    <a href="#architektur">Architektur</a>
+    <a href="#methodik">Methodik</a>
   </div>
   <a class="nav-action" href="https://github.com/ninodinoo/smartgridsim" target="_blank" rel="noreferrer">GitHub</a>
 </nav>
 
 <main id="top">
-  <section class="hero" aria-label="Smart Grid Evaluation">
+  <section class="hero" aria-label="Smart-Grid-Projekt">
     <canvas id="hero-canvas" class="hero-canvas" aria-hidden="true"></canvas>
     <div class="hero-shell">
       <div class="hero-copy">
-        <p class="kicker"><span></span> Forschungsfrage / 45 Runs / 3 Controller</p>
-        <h1>Ein Controller<span class="mobile-break"></span> gewinnt die Statistik.<span class="mobile-break"></span> Ein anderer gewinnt<span class="mobile-break"></span> den Netzbetrieb.</h1>
+        <p class="kicker"><span></span> Aktueller Stand / 90 Messläufe / 15 Seeds</p>
+        <h1>KI kann Brownouts reduzieren. Das reicht im Stromnetz nicht.</h1>
         <p class="research-question">
-          Kann KI in Smart Grids messbar zur Energieeffizienz beitragen?
+          Kann eine KI-Steuerung ein 100&nbsp;% erneuerbares Smart Grid sicherer betreiben als eine regelbasierte Heuristik?
         </p>
         <p class="lead">
-          sgsim testet, ob eine LLM-Steuerung ein volatiles, voll erneuerbares Stromnetz besser führen kann als eine regelbasierte Heuristik. Die Antwort ist unbequem: Claude reduziert Brownout-Ticks, verursacht aber tiefere Defizite, mehr Surplus, schlechtere Frequenz und deutlich höhere Tageskosten.
+          Die Simulation zeigt ein differenziertes Ergebnis: Claude-Subagents und Codex bedienen das Netz über die CLI und senken teilweise die Brownout-Anzahl. Für echte Versorgungssicherheit zählen aber unversorgte Energie, Frequenz und Kosten. Dort bleibt RuleBased im aktuellen Datensatz am stärksten.
         </p>
         <div class="hero-actions" aria-label="Seitensprünge">
-          <a class="button primary" href="#befund">Befund lesen</a>
-          <a class="button ghost" href="#vergleich">Controller vergleichen</a>
+          <a class="button primary" href="#ergebnis">Ergebnis lesen</a>
+          <a class="button ghost" href="#daten">Daten herunterladen</a>
         </div>
       </div>
 
       <aside class="control-room" aria-label="Evaluation Snapshot">
         <div class="console-head">
           <span>Evaluation Snapshot</span>
-          <b>n = 15 je Strategie</b>
+          <b>Stand 19.05.2026</b>
         </div>
         <div class="verdict">
-          <small>Forschungsfrage</small>
-          <strong>LLM aktuell nicht netzreif</strong>
-          <p>KI kann in Smart Grids nur dann zur Energieeffizienz beitragen, wenn sie Versorgungssicherheit, Speicherbudget und Kosten gleichzeitig verbessert. In diesen Runs gelingt das noch nicht.</p>
+          <small>Gesamtbefund</small>
+          <strong>RuleBased gewinnt die Netzsicherheit</strong>
+          <p>Codex liegt nahe an RuleBased und verschwendet am wenigsten Energie. Claude hat weniger Brownout-Ticks, aber viel tiefere Defizite.</p>
         </div>
         <div class="snapshot-grid">
-          <div><span>Claude Brownouts</span><strong>55.47</strong><small>Ticks</small></div>
-          <div><span>RuleBased Unserved</span><strong>233.3</strong><small>MWh</small></div>
-          <div><span>Claude Surplus</span><strong>667.8</strong><small>MWh</small></div>
-          <div><span>Kosten Claude</span><strong>7.40</strong><small>Mio EUR/Tag</small></div>
+          <div><span>Messläufe</span><strong>90</strong><small>indexiert</small></div>
+          <div><span>RuleBased unserved</span><strong>233</strong><small>MWh</small></div>
+          <div><span>Codex surplus</span><strong>10</strong><small>MWh</small></div>
+          <div><span>Claude Kosten</span><strong>7,40</strong><small>Mio. €/Tag</small></div>
         </div>
         <canvas id="load-chart" class="load-chart" aria-label="Last, PV und Wind als Tageskurven"></canvas>
       </aside>
     </div>
   </section>
 
-  <section id="befund" class="section">
+  <section id="ergebnis" class="section">
     <div class="section-head">
-      <p class="kicker"><span></span> Hauptergebnis</p>
-      <h2>Die LLM-Steuerung wirkt lokal intelligent, aber global ohne Energiehaushalt.</h2>
+      <p class="kicker"><span></span> Kernaussage</p>
+      <h2>Weniger Brownout-Ticks bedeuten nicht automatisch bessere Versorgung.</h2>
     </div>
     <div class="evidence-grid">
       <article class="evidence-card positive">
         <span>01</span>
-        <h3>Claude reduziert Brownout-Häufigkeit</h3>
-        <p>55.47 Brownout-Ticks statt 63.73 bei RuleBased. Welch-t = -5.36, Cohen's d = -1.96. Der Effekt ist groß und statistisch klar.</p>
-      </article>
-      <article class="evidence-card warning">
-        <span>02</span>
-        <h3>RuleBased gewinnt den realen Betrieb</h3>
-        <p>Die Heuristik lässt nur 233.3 MWh unversorgt. Claude liegt bei 1028.9 MWh. Die KI macht weniger Fehlerzeitpunkte, aber deutlich härtere Fehler.</p>
+        <h3>RuleBased ist der Sicherheitsmaßstab</h3>
+        <p>RuleBased hat zwar mehr Brownout-Ticks als Claude und Codex, aber nur 233,3&nbsp;MWh unversorgte Energie. Das ist die wichtigste physikalische Kenngröße für Versorgungssicherheit.</p>
       </article>
       <article class="evidence-card neutral">
-        <span>03</span>
-        <h3>Die Kosten bestätigen den Befund</h3>
-        <p>RuleBased kostet im Mittel 1.82 Mio EUR pro Tag. Claude kostet 7.40 Mio EUR. Haupttreiber ist verlorene Last, nicht Controller-Komplexität.</p>
+        <span>02</span>
+        <h3>Codex ist nah dran, aber nicht besser</h3>
+        <p>Codex kommt auf 56,9 Brownout-Ticks, 301,4&nbsp;MWh unversorgte Energie und nur 10,2&nbsp;MWh Überschuss. Das ist deutlich besser als Claude, aber bei Defizittiefe noch schwächer als RuleBased.</p>
       </article>
+      <article class="evidence-card warning">
+        <span>03</span>
+        <h3>Claude wirkt lokal gut, global riskant</h3>
+        <p>Claude reduziert die Brownout-Anzahl auf 55,5 Ticks, verursacht aber 1028,9&nbsp;MWh unversorgte Energie und etwa 7,40&nbsp;Mio.&nbsp;€ Tageskosten. Der Speicherhaushalt wird nicht stabil genug geplant.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="diagramme" class="section charts-section">
+    <div class="section-head compact">
+      <p class="kicker"><span></span> Aktuelle Diagramme</p>
+      <h2>Die wichtigsten Messwerte aus dem neuen Master-Index.</h2>
+      <p class="section-copy">Alle Abbildungen wurden aus den geordneten Messreihen in <code>smartgrid_messreihen/00_ueberblick</code> und <code>05_seminararbeit/charts_aktuell</code> neu erzeugt.</p>
+    </div>
+    <div class="chart-grid">
+      <figure class="chart-card wide">
+        <img src="downloads/charts_aktuell/aktuell_brownouts_unserved.png" alt="Balkendiagramm zu Brownouts und unversorgter Energie" />
+        <figcaption>Brownouts vs. unversorgte Energie: Claude hat weniger Fehlerzeitpunkte, RuleBased die kleineren Fehler.</figcaption>
+      </figure>
+      <figure class="chart-card">
+        <img src="downloads/charts_aktuell/aktuell_surplus_cost.png" alt="Balkendiagramm zu Überschussenergie und Kosten" />
+        <figcaption>Codex minimiert Überschuss, RuleBased minimiert Kosten.</figcaption>
+      </figure>
+      <figure class="chart-card">
+        <img src="downloads/charts_aktuell/aktuell_frequenz.png" alt="Balkendiagramm zur maximalen Frequenzabweichung" />
+        <figcaption>Frequenzabweichung folgt der Bilanzqualität.</figcaption>
+      </figure>
+      <figure class="chart-card">
+        <img src="downloads/charts_aktuell/aktuell_scatter_brownouts_unserved.png" alt="Streudiagramm Brownouts gegen unversorgte Energie je Lauf" />
+        <figcaption>Jeder Punkt ist ein Lauf: wenige Brownouts können trotzdem große Energiemengen betreffen.</figcaption>
+      </figure>
+      <figure class="chart-card">
+        <img src="downloads/charts_aktuell/aktuell_h2_soc_seed42.png" alt="Liniengrafik zum H2-Speicherverlauf für Seed 42" />
+        <figcaption>Der H2-Speicher ist die entscheidende Reserve für den späteren Tagesverlauf.</figcaption>
+      </figure>
     </div>
   </section>
 
   <section id="vergleich" class="section comparison">
     <div class="section-head compact">
       <p class="kicker"><span></span> Strategievergleich</p>
-      <h2>Ein Umschaltpult für drei Arten, das gleiche Netz falsch oder besser zu steuern.</h2>
+      <h2>Vier Steuerungsweisen auf derselben Datenbasis.</h2>
+      <p class="section-copy">Die Baselines laufen automatisch. Claude-Subagents und Codex Operator bedienen die Simulation über die CLI: Zustand lesen, Sollwerte setzen, weiterlaufen lassen.</p>
     </div>
     <div class="workbench">
       <div class="tabs" role="tablist" aria-label="Strategien">
@@ -104,10 +135,13 @@
           <b>Naive</b><span>statische Setpoints</span>
         </button>
         <button class="strategy-tab" data-strategy="rule" role="tab" aria-selected="false">
-          <b>RuleBased</b><span>regelbasierte Heuristik</span>
+          <b>RuleBased</b><span>Heuristik</span>
         </button>
         <button class="strategy-tab" data-strategy="claude" role="tab" aria-selected="false">
-          <b>Claude</b><span>LLM-Subagent</span>
+          <b>Claude</b><span>CLI-Subagents</span>
+        </button>
+        <button class="strategy-tab" data-strategy="codex" role="tab" aria-selected="false">
+          <b>Codex</b><span>CLI-Operator</span>
         </button>
       </div>
 
@@ -117,16 +151,16 @@
             <span id="strategy-kicker">Naive Strategie</span>
             <h3 id="strategy-title">Stabil nur, weil sie kaum reagiert.</h3>
           </div>
-          <p>96 Ticks / 24 h</p>
+          <p id="strategy-sample">n = 15</p>
         </div>
         <p id="strategy-copy" class="strategy-copy">
-          Statische Setpoints erzeugen ähnlich viele Brownouts, verschwenden viel Energie und sind kein intelligenter Controller. Sie dient als unterer Vergleichsanker.
+          Statische Setpoints erzeugen ähnlich viele Brownouts wie die besseren Strategien, aber die Defizite sind sehr tief. Naive dient als untere Vergleichsgrenze.
         </p>
         <div class="metric-strip">
-          <div><span>Brownouts</span><strong id="m-brownouts">59.87</strong><small>Ticks</small></div>
-          <div><span>Unserved</span><strong id="m-unserved">1248.3</strong><small>MWh</small></div>
-          <div><span>Surplus</span><strong id="m-surplus">400.4</strong><small>MWh</small></div>
-          <div><span>Total Cost</span><strong id="m-cost">8.93</strong><small>Mio EUR</small></div>
+          <div><span>Brownouts</span><strong id="m-brownouts">59,87</strong><small>Ticks</small></div>
+          <div><span>Unserved</span><strong id="m-unserved">1248,3</strong><small>MWh</small></div>
+          <div><span>Surplus</span><strong id="m-surplus">400,4</strong><small>MWh</small></div>
+          <div><span>Kosten</span><strong id="m-cost">8,93</strong><small>Mio. €</small></div>
         </div>
         <div class="score-grid" aria-label="Qualitative Scores">
           <div class="score-row"><span>Versorgungssicherheit</span><i><b id="bar-security"></b></i><em id="txt-security">18%</em></div>
@@ -139,177 +173,161 @@
 
   <section id="daten" class="section data-room">
     <div class="section-head compact">
-      <p class="kicker"><span></span> Messdaten & Downloads</p>
-      <h2>Alle Messreihen liegen offen, damit Prüfer jeden Befund nachvollziehen können.</h2>
+      <p class="kicker"><span></span> Daten & Downloads</p>
+      <h2>Prüfbar statt nur behauptet: alle neuen Messdaten liegen offen.</h2>
+      <p class="section-copy">Die Website verlinkt die aktuelle Datenbasis mit 90 indexierten Läufen. Der alte 45-Läufe-Stand wurde ersetzt.</p>
     </div>
 
     <div class="data-intro">
       <article>
-        <span>Prüferpaket</span>
-        <h3>Ein Download mit allen zentralen Auswertungsdateien.</h3>
-        <p>Enthält die Aggregat-Tabellen, Wetteranalyse, Archiv-README und die drei Messreihen als ZIP-Dateien. Das ist der schnellste Einstieg für eine externe Prüfung.</p>
-        <a class="download-button" href="downloads/smartgrid_messreihen_prueferpaket.zip" download>Prüferpaket herunterladen</a>
+        <span>Empfohlener Einstieg</span>
+        <h3>Aktuelles Prüferpaket</h3>
+        <p>Enthält Master-Index, Aggregatdateien, Baselines, Claude-Läufe, Codex-Läufe, Wetteranalyse, Seminararbeits-DOCX, Quellenblatt und aktuelle Diagramme.</p>
+        <a class="download-button" href="downloads/smartgrid_messreihen_aktuell_prueferpaket.zip" download>Prüferpaket herunterladen</a>
       </article>
       <div class="data-stats">
-        <div><strong>45</strong><span>Simulationsläufe</span></div>
+        <div><strong>90</strong><span>indexierte Läufe</span></div>
         <div><strong>15</strong><span>Seeds</span></div>
-        <div><strong>3</strong><span>Controller</span></div>
+        <div><strong>4</strong><span>Strategiegruppen</span></div>
         <div><strong>96</strong><span>Ticks pro Lauf</span></div>
       </div>
     </div>
 
-    <div class="metrics-table" aria-label="Aggregierte Messwerte aus full_metrics_n15.csv">
+    <div class="metrics-table" aria-label="Aktuelle aggregierte Messwerte">
       <div class="metrics-head">
-        <h3>Messwerte, n = 15 je Controller</h3>
-        <a href="downloads/full_metrics_n15.csv" download>CSV herunterladen</a>
+        <h3>Strategien im Mittel</h3>
+        <a href="downloads/aggregate_by_series_controller.csv" download>Aggregat-CSV</a>
       </div>
       <div class="table-scroll">
         <table>
           <thead>
             <tr>
-              <th>Controller</th>
+              <th>Strategie</th>
+              <th>n</th>
               <th>Brownouts</th>
               <th>Unserved MWh</th>
               <th>Surplus MWh</th>
-              <th>CO₂ t</th>
-              <th>EE-Anteil</th>
-              <th>Kosten Mio EUR</th>
+              <th>max |df| Hz</th>
+              <th>Kosten Mio. €</th>
+              <th>Einordnung</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>Naive</td>
-              <td>59.87</td>
-              <td>1248.30</td>
-              <td>400.41</td>
-              <td>26.73</td>
-              <td>56.96 %</td>
-              <td>8.93</td>
+              <td>15</td>
+              <td>59,87</td>
+              <td>1248,30</td>
+              <td>400,41</td>
+              <td>0,915</td>
+              <td>8,93</td>
+              <td>untere Vergleichsgrenze</td>
             </tr>
             <tr class="best-row">
               <td>RuleBased</td>
-              <td>63.73</td>
-              <td>233.25</td>
-              <td>20.88</td>
-              <td>26.73</td>
-              <td>57.58 %</td>
-              <td>1.82</td>
+              <td>15</td>
+              <td>63,73</td>
+              <td>233,25</td>
+              <td>20,88</td>
+              <td>0,366</td>
+              <td>1,82</td>
+              <td>beste Versorgungssicherheit</td>
             </tr>
             <tr>
-              <td>Claude Subagent</td>
-              <td>55.47</td>
-              <td>1028.90</td>
-              <td>667.85</td>
-              <td>27.02</td>
-              <td>51.44 %</td>
-              <td>7.40</td>
+              <td>Claude CLI-Subagents</td>
+              <td>15</td>
+              <td>55,47</td>
+              <td>1028,90</td>
+              <td>667,85</td>
+              <td>0,935</td>
+              <td>7,40</td>
+              <td>wenige, aber tiefe Defizite</td>
+            </tr>
+            <tr class="near-row">
+              <td>Codex Operator</td>
+              <td>45</td>
+              <td>56,89</td>
+              <td>301,39</td>
+              <td>10,21</td>
+              <td>0,564</td>
+              <td>2,30</td>
+              <td>nahe an RuleBased, wenig Surplus</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <p>Interpretation: Claude hat weniger Brownout-Ticks, aber RuleBased ist bei unversorgter Energie, Surplus, erneuerbarem Anteil und Kosten klar besser.</p>
+      <p>Interpretation: RuleBased bleibt bei unversorgter Energie, Frequenz und Kosten vorne. Codex ist die beste KI-nahe Bedienweise. Claude zeigt, warum Brownout-Anzahl allein als Zielgröße irreführt.</p>
     </div>
 
     <div class="download-grid">
       <article class="download-card primary-download">
         <span>Alles</span>
-        <h3>Prüferpaket</h3>
-        <p>Alle zentralen Dateien plus ZIPs der drei Reihen. Empfohlen für Prüfer, die den gesamten Datensatz lokal ansehen möchten.</p>
-        <a href="downloads/smartgrid_messreihen_prueferpaket.zip" download>ZIP herunterladen</a>
+        <h3>Aktuelles Prüferpaket</h3>
+        <p>Kompletter, aktueller Messreihenstand ohne alten Originalimport. Gut für Prüfer, Abgabeordner und Nachvollziehbarkeit.</p>
+        <a href="downloads/smartgrid_messreihen_aktuell_prueferpaket.zip" download>ZIP herunterladen</a>
       </article>
       <article class="download-card word-download">
-        <span>Word</span>
-        <h3>Formatierte Messreihen</h3>
-        <p>Sauber sortiertes Word-Dokument mit den Messreihen tabellarisch zusammengefasst. Gut für Prüfer, die zuerst eine lesbare Übersicht statt Rohdaten möchten.</p>
-        <a href="downloads/SmartGrid_Messreihen_formatiert_A4_hochkant.docx" download>DOCX herunterladen</a>
+        <span>Seminararbeit</span>
+        <h3>Aktualisierter Textteil</h3>
+        <p>DOCX mit Modellbeschreibung, Messreihen-Auswertung, Diagrammen, Tabellenanhang und Detailquellenblatt.</p>
+        <a href="downloads/Seminararbeit_Teil_Modell_und_Messreihen_aktualisiert.docx" download>DOCX herunterladen</a>
       </article>
       <article class="download-card">
-        <span>Excel / LibreOffice</span>
-        <h3>full_metrics_n15.csv</h3>
-        <p>Finale Aggregattabelle mit allen 45 Läufen: Reihe, Controller, Seed, Brownouts, Unserved, Surplus, CO₂, Kosten und Hash.</p>
-        <a href="downloads/full_metrics_n15.csv" download>CSV herunterladen</a>
+        <span>Quellen</span>
+        <h3>Detailquellenblatt</h3>
+        <p>Excel-Datei mit eigenen Primärquellen und externen Hintergrundquellen, getrennt nach Verwendung.</p>
+        <a href="downloads/Detailquellenblatt.xlsx" download>XLSX herunterladen</a>
       </article>
       <article class="download-card">
-        <span>Konsole</span>
-        <h3>aggregation_n15.txt</h3>
-        <p>Textausgabe der finalen Aggregation über alle 15 Seeds, inklusive Mittelwerten, Streuungen, Welch-t und Cohen's d.</p>
-        <a href="downloads/aggregation_n15.txt" download>TXT herunterladen</a>
+        <span>Rohindex</span>
+        <h3>master_index.csv</h3>
+        <p>Eine Zeile pro Lauf: Quelle, Reihe, Controller, Seed, Metriken, Pfade und Reproducibility-Hash.</p>
+        <a href="downloads/master_index.csv" download>CSV herunterladen</a>
+      </article>
+      <article class="download-card">
+        <span>Statistik</span>
+        <h3>aggregate_by_series_controller.csv</h3>
+        <p>Mittelwerte und Standardabweichungen je Quelle, Reihe und Controller.</p>
+        <a href="downloads/aggregate_by_series_controller.csv" download>CSV herunterladen</a>
+      </article>
+      <article class="download-card">
+        <span>Codex</span>
+        <h3>codex_all_rounds.csv</h3>
+        <p>Alle 45 Codex-Operator-Läufe aus drei Durchgängen in einer kompakten Tabelle.</p>
+        <a href="downloads/codex_all_rounds.csv" download>CSV herunterladen</a>
+      </article>
+      <article class="download-card">
+        <span>Diagramme</span>
+        <h3>charts_aktuell.zip</h3>
+        <p>Alle fünf aktuellen PNG-Diagramme aus der Seminararbeitsauswertung.</p>
+        <a href="downloads/charts_aktuell.zip" download>ZIP herunterladen</a>
       </article>
       <article class="download-card">
         <span>Wetter</span>
         <h3>wetter_analyse.md</h3>
-        <p>Erklärt Wetterlage pro Seed und den Befund, dass Subagents schlechtes Wetter überschätzen, obwohl die Tagessummen normal sind.</p>
+        <p>Wetterauswertung und Einordnung der synthetischen Seed-Tage.</p>
         <a href="downloads/wetter_analyse.md" download>MD herunterladen</a>
-      </article>
-      <article class="download-card">
-        <span>Wetter-CSV</span>
-        <h3>wetterlage_pro_seed.csv</h3>
-        <p>Maschinenlesbare Wetter-Tagessummen für alle Seeds: Einstrahlung, Wind, PV-Ertrag, Wind-Ertrag und Klassifikation.</p>
-        <a href="downloads/wetterlage_pro_seed.csv" download>CSV herunterladen</a>
-      </article>
-      <article class="download-card">
-        <span>Archiv-Doku</span>
-        <h3>README.md</h3>
-        <p>Beschreibt Ordnerstruktur, Datentypen pro Seed, Berichte, Aggregat-CSVs, Hashes und Nutzung in Excel oder Python.</p>
-        <a href="downloads/README.md" download>MD herunterladen</a>
-      </article>
-      <article class="download-card">
-        <span>Zwischenstand</span>
-        <h3>full_metrics_combined.csv</h3>
-        <p>Aggregattabelle für Reihe 1 + Reihe 2 mit 30 Läufen. Dient als Replikations-Zwischenstand vor der finalen n=15-Auswertung.</p>
-        <a href="downloads/full_metrics_combined.csv" download>CSV herunterladen</a>
-      </article>
-      <article class="download-card">
-        <span>Zwischenstand</span>
-        <h3>aggregation_combined.txt</h3>
-        <p>Konsolen-Aggregation für Reihe 1 + Reihe 2. Nützlich, um zu sehen, wie sich der Befund vor Reihe 3 stabilisiert hat.</p>
-        <a href="downloads/aggregation_combined.txt" download>TXT herunterladen</a>
-      </article>
-    </div>
-
-    <div class="series-downloads">
-      <article>
-        <span>Reihe 1</span>
-        <h3>Seeds 7, 13, 23, 42, 99</h3>
-        <p>Enthält Bericht, Aggregation, Reihe-CSV und Rohdaten pro Seed. Seed 42 enthält zusätzlich Plot-Dateien.</p>
-        <a href="downloads/reihe_1.zip" download>reihe_1.zip</a>
-      </article>
-      <article>
-        <span>Reihe 2</span>
-        <h3>Seeds 3, 17, 31, 55, 73</h3>
-        <p>Erste Replikation mit Bericht, Aggregation, Reihe-CSV und Seed-Rohdaten für alle drei Controller.</p>
-        <a href="downloads/reihe_2.zip" download>reihe_2.zip</a>
-      </article>
-      <article>
-        <span>Reihe 3</span>
-        <h3>Seeds 5, 19, 41, 67, 88</h3>
-        <p>Zweite Replikation und finale Erweiterung auf n=15 je Controller.</p>
-        <a href="downloads/reihe_3.zip" download>reihe_3.zip</a>
       </article>
     </div>
 
     <div class="file-guide">
-      <h3>Was sagt welche Datei aus?</h3>
+      <h3>Welche Datei nimmt man wofür?</h3>
       <dl>
         <div>
-          <dt>Word-Zusammenfassung</dt>
-          <dd><code>SmartGrid_Messreihen_formatiert_A4_hochkant.docx</code> ist die lesbare Word-Zusammenfassung mit sauber sortierten, tabellarisch zusammengefassten Messreihen.</dd>
+          <dt>Für den schnellen Überblick</dt>
+          <dd><code>Seminararbeit_Teil_Modell_und_Messreihen_aktualisiert.docx</code> erklärt Modell, Messreihen und Ergebnis auf Abitur-Physik-Niveau.</dd>
         </div>
         <div>
-          <dt>Aggregat-CSVs</dt>
-          <dd><code>full_metrics_n15.csv</code> ist die zentrale Tabelle für Excel, LibreOffice oder Python. Eine Zeile entspricht einem Lauf, also einer Kombination aus Reihe, Controller und Seed.</dd>
+          <dt>Für Nachrechnung</dt>
+          <dd><code>master_index.csv</code> enthält alle einzelnen Läufe; <code>aggregate_by_series_controller.csv</code> enthält die Mittelwerte.</dd>
         </div>
         <div>
-          <dt>Aggregation-TXT</dt>
-          <dd><code>aggregation_n15.txt</code> ist die direkt lesbare Konsolenausgabe mit Mittelwerten, Standardabweichungen und statistischen Tests.</dd>
+          <dt>Für Codex-Vergleich</dt>
+          <dd><code>codex_all_rounds.csv</code> zeigt die drei Codex-Durchgänge und macht sichtbar, dass die Ergebnisse stabil nah beieinander liegen.</dd>
         </div>
         <div>
-          <dt>Messreihen-ZIPs</dt>
-          <dd><code>reihe_1.zip</code>, <code>reihe_2.zip</code> und <code>reihe_3.zip</code> enthalten die Rohdaten pro Seed: Tick-CSV, Metrics-JSON und Endzustand des Claude-Subagent-Laufs.</dd>
-        </div>
-        <div>
-          <dt>Wetterdateien</dt>
-          <dd><code>wetter_analyse.md</code> erklärt den Wetter-Bias der LLM-Subagents. <code>wetterlage_pro_seed.csv</code> liefert die zugehörigen Tagessummen maschinenlesbar.</dd>
+          <dt>Für Quellenprüfung</dt>
+          <dd><code>Detailquellenblatt.xlsx</code> trennt eigene Simulationsdaten von externen Hintergrundquellen.</dd>
         </div>
       </dl>
     </div>
@@ -317,57 +335,52 @@
 
   <section id="modell" class="section">
     <div class="section-head">
-      <p class="kicker"><span></span> Modell</p>
-      <h2>Eine mittelgroße Stadt als reproduzierbares Netzexperiment.</h2>
+      <p class="kicker"><span></span> Simulationsmodell</p>
+      <h2>Ein reproduzierbares Stadtmodell statt einer echten Netzleitwarte.</h2>
+      <p class="section-copy">Das Modell ist bewusst vereinfacht: ein Sammelknoten, 15-Minuten-Schritte, synthetisches Wetter, erneuerbare Erzeugung, Speicher und flexible Verbraucher.</p>
     </div>
     <div class="model-grid">
       <article class="model-card overview">
         <h3>Default-Szenario <span>stadt_mittel</span></h3>
-        <p>Rund 150&nbsp;000 Einwohner-Äquivalent, 15-Minuten-Auflösung, 96 Ticks pro Tag, seed-deterministisches Wetter und Klartext-Persistenz über JSON/CSV.</p>
+        <p>Rund 150&nbsp;000 Einwohner-Äquivalent, 96 Ticks pro Tag, deterministische Seeds, CSV/JSON-Ausgabe und pausierbare CLI-Steuerung.</p>
       </article>
-      <article class="model-card"><span>PV</span><strong>200 MWp</strong><small>1 000 000 m2, eta 20 %, Inverter 97 %</small></article>
-      <article class="model-card"><span>Wind</span><strong>98 MW</strong><small>12 x 4 MW onshore + 5 x 10 MW offshore</small></article>
-      <article class="model-card"><span>Batterie</span><strong>200 MWh</strong><small>Round-trip eta 0.90</small></article>
-      <article class="model-card"><span>Pumpspeicher</span><strong>980 MWh</strong><small>200 m Fallhöhe, eta 0.80</small></article>
-      <article class="model-card risk"><span>H2-Speicher</span><strong>5 GWh</strong><small>saisonal, eta_rt 0.36</small></article>
-      <article class="model-card"><span>Backup</span><strong>200 MW</strong><small>H2-Gasturbine, Rampe 8 MW/min</small></article>
-      <article class="model-card"><span>EV-Flotte</span><strong>55 MW</strong><small>5000 Autos, V2G-fähig</small></article>
-      <article class="model-card"><span>VoLL</span><strong>7000 EUR</strong><small>Schaden pro MWh unserved</small></article>
+      <article class="model-card"><span>PV</span><strong>200 MWp</strong><small>Dachflächen, Wetter abhängig</small></article>
+      <article class="model-card"><span>Wind</span><strong>98 MW</strong><small>Onshore + Offshore</small></article>
+      <article class="model-card"><span>Batterie</span><strong>200 MWh</strong><small>schneller Kurzzeitspeicher</small></article>
+      <article class="model-card"><span>Pumpspeicher</span><strong>980 MWh</strong><small>mehrere Stunden Reserve</small></article>
+      <article class="model-card risk"><span>H2-Speicher</span><strong>5 GWh</strong><small>saisonale Reserve, begrenzt</small></article>
+      <article class="model-card"><span>H2-Turbine</span><strong>200 MW</strong><small>Backup verbraucht H2-Speicher</small></article>
+      <article class="model-card"><span>EV-Flotte</span><strong>55 MW</strong><small>Vehicle-to-Grid-fähig</small></article>
+      <article class="model-card"><span>Bewertung</span><strong>VoLL</strong><small>nicht gelieferte Energie ist teuer</small></article>
     </div>
   </section>
 
-  <section id="h2" class="section incident">
+  <section id="methodik" class="section method">
     <div class="section-head compact">
-      <p class="kicker"><span></span> Fehlerursache</p>
-      <h2>15 von 15 LLM-Subagents leeren den H2-Saisonspeicher zu früh.</h2>
+      <p class="kicker"><span></span> Methodik</p>
+      <h2>Der faire Vergleich hält Wetter und Last konstant.</h2>
     </div>
-    <div class="incident-layout">
-      <div class="timeline" aria-label="H2 Fehlerzeitlinie">
-        <div class="tick"><b>Tick 0</b><span>Start-SoC ca. 47 % von 5 GWh</span></div>
-        <div class="tick"><b>Tick 20-48</b><span>lokal plausible H2-Turbinen-Entscheidungen</span></div>
-        <div class="tick alarm"><b>Tick 60-80</b><span>H2-Speicher typischerweise leer</span></div>
-        <div class="tick"><b>Abendspitze</b><span>Backup fehlt, Brownout-Kaskade startet</span></div>
-      </div>
-      <article class="incident-note">
-        <h3>Post-hoc stark, ex-ante schwach</h3>
-        <p>Die LLM-Subagents planen blockweise mit 4-8 Ticks Voraussicht, also ungefähr 1-2 Stunden. Das reicht für lokale Reaktion, aber nicht für ein Tagesbudget des saisonalen Speichers.</p>
-        <p>Der Fehler wird in der Rückschau erkannt, während der Steuerung aber nicht als harte Ressourcengrenze behandelt.</p>
+    <div class="method-grid">
+      <article>
+        <span>01</span>
+        <h3>Gleiche Seeds</h3>
+        <p>Alle Strategien laufen über dieselben 15 Seeds. Dadurch sind Wetter, Lastverlauf und Ausgangsbedingungen vergleichbar.</p>
       </article>
-    </div>
-  </section>
-
-  <section id="architektur" class="section">
-    <div class="section-head">
-      <p class="kicker"><span></span> Architektur</p>
-      <h2>Physik, Controller und KI-Decider sind getrennt genug, um die Ergebnisse zu reproduzieren.</h2>
-    </div>
-    <div class="architecture">
-      <article><span>01</span><h3>Komponenten</h3><p>PV, Wind, Lasten, Speicher und Sektorkopplung liefern pro Tick eine Wirkleistung.</p></article>
-      <article><span>02</span><h3>Wetter & Daten</h3><p>Seed-deterministisches Wetter oder CSV-Schnittstelle für reale Daten.</p></article>
-      <article><span>03</span><h3>Engine</h3><p>Bilanz, CO2, Frequenz, Surplus, Brownouts und Persistenz.</p></article>
-      <article><span>04</span><h3>Controller</h3><p>Naive und RuleBased setzen Sollwerte, ohne Physikcode zu verändern.</p></article>
-      <article><span>05</span><h3>LLM-Schnittstelle</h3><p>JSON-Snapshot rein, JSON-Aktion raus. Claude agiert als Decider.</p></article>
-      <article><span>06</span><h3>CLI</h3><p>init, state, dispatch, run, metrics und export machen jeden Lauf zitierbar.</p></article>
+      <article>
+        <span>02</span>
+        <h3>Gleiche Physik</h3>
+        <p>Die Komponenten liefern pro Tick eine Wirkleistung. Danach berechnet die Engine Bilanz, Frequenz, Überschuss, Defizit und Kosten.</p>
+      </article>
+      <article>
+        <span>03</span>
+        <h3>Gleiche CLI</h3>
+        <p>Claude-Subagents und Codex nutzen beide die CLI-Bedienung. Sie sind keine versteckten Kraftwerksmodelle.</p>
+      </article>
+      <article>
+        <span>04</span>
+        <h3>Prüfbare Artefakte</h3>
+        <p>Jeder Lauf hat Metrics, CSV-Pfad und Hash. Die Website verweist auf dieselben Dateien wie die Seminararbeitsauswertung.</p>
+      </article>
     </div>
   </section>
 </main>
@@ -375,7 +388,7 @@
 <footer class="site-footer">
   <div>
     <strong>sgsim</strong>
-    <p>Projektwebsite für Smart-Grid-Simulation, LLM-Evaluation und H2-Fehleranalyse.</p>
+    <p>Projektwebsite für Smart-Grid-Simulation, CLI-Steuerung, Messreihen und Seminararbeitsauswertung.</p>
   </div>
   <a href="https://github.com/ninodinoo/smartgridsim" target="_blank" rel="noreferrer">Repository öffnen</a>
 </footer>
